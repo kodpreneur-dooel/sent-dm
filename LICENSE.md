@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) KODPRENEUR DOOEL <veselinovbusiness@gmail.com>
+Copyright (c) KODPRENEUR DOOEL <contact@codepreneur.mk>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

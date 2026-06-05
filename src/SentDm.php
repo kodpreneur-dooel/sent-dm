@@ -1,7 +1,8 @@
 <?php
 
-namespace KodpreneurDool\SentDm;
+namespace Codepreneur\SentDm;
 
+use Illuminate\Http\Request;
 use SentDm\Client;
 
 class SentDm
@@ -48,5 +49,17 @@ class SentDm
         $expected = 'v1,'.base64_encode(hash_hmac('sha256', $signed, $key, true));
 
         return hash_equals($expected, $signature);
+    }
+
+    public function verifyWebhookRequest(Request $request, ?string $secret = null, int $tolerance = 300): bool
+    {
+        return $this->verifyWebhookSignature(
+            payload: $request->getContent(),
+            webhookId: $request->header('X-Webhook-ID', ''),
+            timestamp: $request->header('X-Webhook-Timestamp', ''),
+            signature: $request->header('X-Webhook-Signature', ''),
+            secret: $secret,
+            tolerance: $tolerance,
+        );
     }
 }

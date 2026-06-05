@@ -1,12 +1,12 @@
 {
-    "name": "kodpreneur-dool/sent-dm",
+    "name": "kodpreneur-dooel/sent-dm",
     "description": "Laravel integration for the Sent DM PHP SDK.",
     "keywords": [
         "KODPRENEUR DOOEL",
         "laravel",
         "sent-dm"
     ],
-    "homepage": "https://github.com/kodpreneur-dool/sent-dm",
+    "homepage": "https://github.com/kodpreneur-dooel/sent-dm",
     "license": "MIT",
     "authors": [
         {
@@ -17,14 +17,16 @@
     ],
     "require": {
         "php": "^8.2",
+        "illuminate/contracts": "^11.0||^12.0||^13.0",
+        "illuminate/http": "^11.0||^12.0||^13.0",
         "sentdm/sent-dm-php": "^0.17",
-        "spatie/laravel-package-tools": "^1.16",
-        "illuminate/contracts": "^11.0||^12.0||^13.0"
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
+        "larastan/larastan": "^3.0",
+        "laravel/boost": "^2.4",
         "laravel/pint": "^1.14",
         "nunomaduro/collision": "^8.8",
-        "larastan/larastan": "^3.0",
         "orchestra/testbench": "^11.0.0||^10.0.0||^9.0.0",
         "pestphp/pest": "^4.0",
         "pestphp/pest-plugin-arch": "^4.0",
@@ -36,13 +38,12 @@
     },
     "autoload": {
         "psr-4": {
-            "KodpreneurDool\\SentDm\\": "src/",
-            "KodpreneurDool\\SentDm\\Database\\Factories\\": "database/factories/"
+            "Codepreneur\\SentDm\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "KodpreneurDool\\SentDm\\Tests\\": "tests/",
+            "Codepreneur\\SentDm\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -58,16 +59,17 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
             "phpstan/extension-installer": true
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "KodpreneurDool\\SentDm\\SentDmServiceProvider"
+                "Codepreneur\\SentDm\\SentDmServiceProvider"
             ],
             "aliases": {
-                "SentDm": "KodpreneurDool\\SentDm\\Facades\\SentDm"
+                "SentDm": "Codepreneur\\SentDm\\Facades\\SentDm"
             }
         }
     },

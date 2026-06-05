@@ -1,8 +1,8 @@
 <?php
 
-namespace KodpreneurDool\SentDm\Tests;
+namespace Codepreneur\SentDm\Tests;
 
-use KodpreneurDool\SentDm\SentDmServiceProvider;
+use Codepreneur\SentDm\SentDmServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra

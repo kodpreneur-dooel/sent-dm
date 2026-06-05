@@ -13,6 +13,8 @@ yarn-error.log
 .phpunit.cache
 .phpunit.result.cache
 /build
+/bootstrap/cache
+/storage
 
 # IDE Helper
 _ide_helper.php
@@ -23,6 +25,15 @@ _ide_helper_models.php
 /.idea
 /.fleet
 /.vscode
+
+# Shared AI / agent guidance is intentionally trackable.
+!/.ai
+!/.ai/**
+!/.agents
+!/.agents/**
+!/.codex
+!/.codex/**
+!AGENTS.md
 
 # Misc
 phpunit.xml

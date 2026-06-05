@@ -1,7 +1,8 @@
 <?php
 
-use KodpreneurDool\SentDm\Facades\SentDm as SentDmFacade;
-use KodpreneurDool\SentDm\SentDm;
+use Codepreneur\SentDm\Facades\SentDm as SentDmFacade;
+use Codepreneur\SentDm\SentDm;
+use Illuminate\Http\Request;
 use SentDm\Client;
 
 it('registers the Sent DM client', function () {
@@ -27,6 +28,22 @@ it('verifies webhook signatures', function () {
         timestamp: $timestamp,
         signature: $signature,
     ))->toBeTrue();
+});
+
+it('verifies webhook requests', function () {
+    $payload = '{"field":"message"}';
+    $webhookId = 'evt_123';
+    $timestamp = (string) time();
+    $key = 'sent-webhook-secret';
+    $signature = 'v1,'.base64_encode(hash_hmac('sha256', "{$webhookId}.{$timestamp}.{$payload}", $key, true));
+
+    $request = Request::create('/webhooks/sent', 'POST', [], [], [], [
+        'HTTP_X_WEBHOOK_ID' => $webhookId,
+        'HTTP_X_WEBHOOK_TIMESTAMP' => $timestamp,
+        'HTTP_X_WEBHOOK_SIGNATURE' => $signature,
+    ], $payload);
+
+    expect(app(SentDm::class)->verifyWebhookRequest($request))->toBeTrue();
 });
 
 it('rejects invalid webhook signatures', function () {

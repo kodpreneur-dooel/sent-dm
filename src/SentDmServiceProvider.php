@@ -1,6 +1,6 @@
 <?php
 
-namespace KodpreneurDool\SentDm;
+namespace Codepreneur\SentDm;
 
 use SentDm\Client;
 use SentDm\RequestOptions;
@@ -20,8 +20,8 @@ class SentDmServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton(Client::class, function () {
             return new Client(
-                apiKey: (string) config('sent-dm.api_key'),
-                baseUrl: config('sent-dm.base_url'),
+                apiKey: (string) (config('sent-dm.api_key') ?: config('services.sent_dm.api_key')),
+                baseUrl: config('sent-dm.base_url') ?: config('services.sent_dm.base_url'),
                 requestOptions: RequestOptions::with(
                     timeout: (float) config('sent-dm.timeout', 60),
                     maxRetries: (int) config('sent-dm.max_retries', 2),
@@ -33,7 +33,7 @@ class SentDmServiceProvider extends PackageServiceProvider
 
         $this->app->singleton(SentDm::class, fn ($app) => new SentDm(
             client: $app->make(Client::class),
-            webhookSecret: config('sent-dm.webhook_secret'),
+            webhookSecret: config('sent-dm.webhook_secret') ?: config('services.sent_dm.webhook_secret'),
         ));
 
         $this->app->alias(SentDm::class, 'sent-dm');
