@@ -19,7 +19,9 @@
         "php": "^8.2",
         "illuminate/contracts": "^11.0||^12.0||^13.0",
         "illuminate/http": "^11.0||^12.0||^13.0",
-        "sentdm/sent-dm-php": "^0.17",
+        "illuminate/notifications": "^11.0||^12.0||^13.0",
+        "php-http/discovery": "^1.19.3",
+        "sentdm/sent-dm-php": "^0.23",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {

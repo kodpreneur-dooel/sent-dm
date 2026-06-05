@@ -5,7 +5,8 @@ description: Build Laravel features that send Sent DM messages, inject the Sent 
 
 # Sent DM Laravel
 
-Use this skill when adding Sent DM messaging or webhook handling to a Laravel app that has `kodpreneur-dooel/sent-dm` installed.
+Use this skill when adding Sent DM messaging or webhook handling to a Laravel app that has `kodpreneur-dooel/sent-dm`
+installed.
 
 ## Setup
 
@@ -22,6 +23,12 @@ SENT_DM_API_KEY=
 SENT_DM_WEBHOOK_SECRET=
 SENT_DM_MAX_RETRIES=2
 SENT_DM_TIMEOUT=60
+SENT_DM_SMS_QUEUE=default
+SENT_DM_SMS_SANDBOX=false
+SENT_DM_SMS_PROFILE_ID=
+SENT_DM_SMS_TEMPLATE_ID=
+SENT_DM_SMS_TEMPLATE_NAME=sms_notification
+SENT_DM_SMS_TEMPLATE_PARAMETER=message
 ```
 
 ## Client Access
@@ -41,6 +48,60 @@ use Codepreneur\SentDm\Facades\SentDm;
 
 $client = SentDm::client();
 ```
+
+## Notification SMS Channel
+
+Use `sms` in any notification `via()` method. Existing app notifications can append `sms` beside mail, database,
+broadcast, or other channels:
+
+```php
+public function via(object $notifiable): array
+{
+    return ['mail', 'sms'];
+}
+```
+
+Build SMS payloads with `Codepreneur\SentDm\Messages\SentDmSmsMessage`:
+
+```php
+public function toSms(object $notifiable): SentDmSmsMessage
+{
+    return SentDmSmsMessage::text('Your verification code is 123456.');
+}
+```
+
+Use explicit Sent DM templates when needed:
+
+```php
+public function toSms(object $notifiable): SentDmSmsMessage
+{
+    return SentDmSmsMessage::forTemplate(
+        id: '7ba7b820-9dad-11d1-80b4-00c04fd430c8',
+        name: 'welcome',
+        parameters: ['name' => $notifiable->name],
+    );
+}
+```
+
+Notifiable models should implement:
+
+```php
+public function routeNotificationForSms(): ?string
+{
+    return $this->phone_number;
+}
+```
+
+For one-off SMS sends, use:
+
+```php
+use Codepreneur\SentDm\Notifications\SmsNotification;
+
+$user->notify(new SmsNotification('Your verification code is 123456.'));
+```
+
+Use `Codepreneur\SentDm\Concerns\InteractsWithSentDmSms` when a notification should include the `sms` channel only when
+a route exists, use retry backoff, and send SMS work to the configured queue.
 
 ## Webhooks
 
